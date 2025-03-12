@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invitación Interactiva</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(to bottom, #ffccd5, #ffb3c1);
+            font-family: Arial, sans-serif;
+            overflow: hidden;
+        }
+        .card {
+            width: 250px;
+            height: 350px;
+            background: white;
+            border-radius: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        .cord {
+            position: absolute;
+            top: 10px;
+            width: 2px;
+            height: 80px;
+            background: red;
+        }
+        .ribbon {
+            position: absolute;
+            top: 80px;
+            width: 30px;
+            height: 30px;
+            background: red;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .message-box {
+            display: none;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        .buttons {
+            margin-top: 10px;
+        }
+        .buttons button {
+            margin: 5px;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .yes {
+            background: green;
+            color: white;
+        }
+        .no {
+            background: red;
+            color: white;
+            position: relative;
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <div class="cord" id="cordWrapper"></div>
+        <div class="ribbon" id="ribbon"></div>
+    </div>
+    <div class="message-box" id="messageBox">
+        <p>¿Quieres salir conmigo? 🥺</p>
+        <img src="https://pa1.aminoapps.com/6326/3c2652896afc51b37011992a37eab711b56c0652_00.gif" alt="Cute Image" width="100">
+        <div class="buttons">
+            <button class="yes" id="yesButton">Sí</button>
+            <button class="no" id="noButton">No</button>
+        </div>
+    </div>
+    <script>
+        document.getElementById("ribbon").addEventListener("mousedown", function() {
+            gsap.to("#ribbon", {
+                y: 50,
+                duration: 0.5,
+                onComplete: () => {
+                    gsap.to(["#cordWrapper", "#ribbon"], {
+                        opacity: 0,
+                        duration: 0.5,
+                        onComplete: () => {
+                            document.getElementById("cordWrapper").style.display = "none";
+                            document.getElementById("ribbon").style.display = "none";
+                            document.getElementById("messageBox").style.display = "block";
+                        }
+                    });
+                }
+            });
+        });
+
+        document.getElementById("noButton").addEventListener("mouseover", function() {
+            let button = document.getElementById("noButton");
+            let maxX = window.innerWidth - button.offsetWidth;
+            let maxY = window.innerHeight - button.offsetHeight;
+            let randomX = Math.random() * maxX;
+            let randomY = Math.random() * maxY;
+            gsap.to(button, { opacity: 0, duration: 0.2 });
+            gsap.to(button, { x: randomX, y: randomY, duration: 0.5, onComplete: () => {
+                gsap.to(button, { opacity: 1, duration: 0.2 });
+            }});
+        });
+
+        document.getElementById("yesButton").addEventListener("click", function() {
+            document.getElementById("messageBox").innerHTML = "<h2>¡Gracias! Sabía que aceptarías 💖</h2><img src='https://media.tenor.com/6yMqezH9zcIAAAAM/cat-dance-dance-cat.gif' width='100'>";
+        });
+    </script>
+</body>
+</html>
